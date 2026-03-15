@@ -2,17 +2,22 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>Hieuneskibilitoilet</title>
+<title>Game Center</title>
 
 <style>
+
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
 font-family:Arial;
-text-align:center;
 color:white;
+text-align:center;
 
-background:linear-gradient(180deg,#000000,#2a003f,#ff003c);
+background:linear-gradient(180deg,#000000,#1a0030,#4b005e,#ff003c);
+min-height:100vh;
 }
 
 .container{
@@ -26,31 +31,51 @@ width:120px;
 height:120px;
 border-radius:50%;
 margin-top:20px;
-box-shadow:0 0 20px #ff004c;
+
+box-shadow:
+0 0 20px #ff004c,
+0 0 40px #8a00ff;
+
+object-fit:cover;
 }
 
 h2{
 margin:10px 0;
+font-size:28px;
 }
 
-.link{
+p{
+opacity:0.8;
+margin-bottom:30px;
+}
+
+.card{
 display:block;
-margin:15px 0;
-padding:15px;
-
 background:#111;
-border-radius:12px;
-
+margin:20px 0;
+border-radius:15px;
+overflow:hidden;
 text-decoration:none;
 color:white;
 
-font-size:18px;
+box-shadow:0 0 15px #8a00ff;
 
-box-shadow:0 0 10px #8a00ff;
+transition:0.25s;
 }
 
-.link:hover{
+.card:hover{
 transform:scale(1.05);
+box-shadow:0 0 25px #ff004c;
+}
+
+.card img{
+width:100%;
+display:block;
+}
+
+.title{
+padding:15px;
+font-size:18px;
 }
 
 </style>
@@ -60,31 +85,33 @@ transform:scale(1.05);
 
 <div class="container">
 
-<img class="avatar"
-src="https://i.imgur.com/Z6X9K8p.png">
+<img class="avatar" src="avatar.png">
 
 <h2>Hieuneskibilitoilet</h2>
+<p>🎮 Mini Game Center</p>
 
-<p>Mini Game Center</p>
-
-<a class="link" href="game1.html">
-🎮 Game 1
+<a class="card" href="game1.html">
+<img src="game1.png">
+<div class="title">🎮 Game 1</div>
 </a>
 
-<a class="link" href="game2.html">
-🔥 Game 2
+<a class="card" href="game2.html">
+<img src="game2.png">
+<div class="title">🔥 Game 2</div>
 </a>
 
-<a class="link" href="game3.html">
-⚡ Game 3
+<a class="card" href="game3.html">
+<img src="game3.png">
+<div class="title">⚡ Game 3</div>
 </a>
-
-<a class="link" href="https://youtube.com">
-▶ Youtube
+<a class="card" href="game3.html">
+<img src="game3.png">
+<div class="title">⚡ Game 3</div>
 </a>
-
-<a class="link" href="https://github.com">
-💻 GitHub
+  
+<a class="card" href="https://youtube.com">
+<img src="yt.png">
+<div class="title">▶ Youtube</div>
 </a>
 
 </div>
