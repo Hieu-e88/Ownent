@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doki Byste — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050608;
+    --surface: #0d0e12;
+    --surface2: #12141a;
+    --border: rgba(255,255,255,0.06);
+    --border-glow: rgba(0,255,163,0.25);
+    --accent: #00ffa3;
+    --accent2: #7b61ff;
+    --accent3: #ff4d6d;
+    --text: #e8eaf0;
+    --muted: #5a5e70;
+    --muted2: #3a3d4d;
+    --glow: 0 0 40px rgba(0,255,163,0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DM Mono', monospace;
+    color: var(--text);
+    padding: 24px;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Background grid */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Ambient glows */
+  .glow-orb {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .glow-orb.g1 { width: 400px; height: 400px; background: rgba(0,255,163,0.07); top: -100px; right: -100px; }
+  .glow-orb.g2 { width: 350px; height: 350px; background: rgba(123,97,255,0.08); bottom: -80px; left: -80px; }
+  .glow-orb.g3 { width: 250px; height: 250px; background: rgba(255,77,109,0.05); top: 50%; left: 50%; transform: translate(-50%,-50%); }
+
+  /* === CARD === */
+  .card {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    z-index: 1;
+    animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Outer frame */
+  .card-frame {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.03), 0 40px 80px rgba(0,0,0,0.7), var(--glow);
+    position: relative;
+  }
+
+  /* Top accent bar */
+  .card-frame::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, var(--accent) 30%, var(--accent2) 70%, transparent 100%);
+    z-index: 10;
+  }
+
+  /* === HEADER === */
+  .card-header {
+    padding: 28px 28px 0;
+    position: relative;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  /* Avatar */
+  .avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+    animation: fadeUp 0.8s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .avatar-ring {
+    width: 78px; height: 78px;
+    border-radius: 50%;
+    padding: 2px;
+    background: conic-gradient(from 180deg, var(--accent), var(--accent2), var(--accent3), var(--accent));
+    animation: spin 6s linear infinite;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .avatar-inner {
+    width: 100%; height: 100%;
+    border-radius: 50%;
+    background: var(--surface2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: -1px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .avatar-inner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+  }
+
+  /* Online badge */
+  .online-badge {
+    position: absolute;
+    bottom: 2px; right: 2px;
+    width: 14px; height: 14px;
+    background: var(--accent);
+    border: 2px solid var(--surface);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+    z-index: 2;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,163,0.5); }
+    50%       { box-shadow: 0 0 0 5px rgba(0,255,163,0); }
+  }
+
+  /* Header info block */
+  .header-info {
+    flex: 1;
+    min-width: 0;
+    animation: fadeUp 0.8s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .name {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    margin-bottom: 4px;
+  }
+
+  .name span {
+    color: var(--accent);
+  }
+
+  .handle {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  .handle span { color: var(--accent2); }
+
+  .location-row {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  .location-row svg { color: var(--accent3); flex-shrink: 0; }
+
+  /* Follower chip */
+  .follower-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(0,255,163,0.07);
+    border: 1px solid rgba(0,255,163,0.15);
+    border-radius: 20px;
+    padding: 4px 12px 4px 8px;
+    font-size: 11px;
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    white-space: nowrap;
+    margin-top: 2px;
+    animation: fadeUp 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .follower-chip::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  /* === DIVIDER === */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-glow), transparent);
+    margin: 20px 0;
+    opacity: 0.6;
+  }
+
+  /* === BIO === */
+  .bio-section {
+    padding: 0 28px;
+    animation: fadeUp 0.8s 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .bio-code {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--muted);
+  }
+
+  .bio-code .kw  { color: var(--accent2); }
+  .bio-code .fn  { color: var(--accent); }
+  .bio-code .str { color: #ff9d4d; }
+  .bio-code .cmt { color: #404459; font-style: italic; }
+  .bio-code .punc{ color: var(--muted); }
+
+  .bio-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-top: 10px;
+    line-height: 1.5;
+  }
+
+  .role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 3px 9px;
+    border-radius: 4px;
+    margin: 3px 3px 0 0;
+    border: 1px solid;
+  }
+
+  .role-badge.green  { color: var(--accent);  border-color: rgba(0,255,163,0.25); background: rgba(0,255,163,0.06); }
+  .role-badge.purple { color: var(--accent2); border-color: rgba(123,97,255,0.25); background: rgba(123,97,255,0.06); }
+  .role-badge.red    { color: var(--accent3); border-color: rgba(255,77,109,0.25); background: rgba(255,77,109,0.06); }
+
+  /* === STATS === */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 0 28px;
+    animation: fadeUp 0.8s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .stat-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+
+  .stat-box:hover {
+    border-color: var(--border-glow);
+    transform: translateY(-2px);
+  }
+
+  .stat-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .stat-val span { color: var(--accent); font-size: 13px; }
+
+  .stat-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.5px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* === PAYMENT / DONATE === */
+  .pay-section {
+    padding: 0 28px;
+    animation: fadeUp 0.8s 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .pay-cards {
+    display: flex;
+    gap: 8px;
+  }
+
+  .pay-card {
+    flex: 1;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pay-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,255,163,0.05) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+
+  .pay-card:hover {
+    border-color: rgba(0,255,163,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,255,163,0.08);
+  }
+  .pay-card:hover::before { opacity: 1; }
+
+  .pay-bank {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .pay-number {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+    letter-spacing: 1px;
+  }
+
+  /* Copy toast */
+  .pay-card .copy-hint {
+    font-size: 9px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    margin-top: 4px;
+    opacity: 0.5;
+  }
+
+  .donate-btn {
+    flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(0,255,163,0.15), rgba(123,97,255,0.15));
+    border: 1px solid rgba(0,255,163,0.3);
+    border-radius: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    text-decoration: none;
+  }
+
+  .donate-btn:hover {
+    background: linear-gradient(135deg, rgba(0,255,163,0.25), rgba(123,97,255,0.25));
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,255,163,0.15);
+  }
+
+  .donate-icon { font-size: 18px; }
+
+  .donate-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* === SKILLS === */
+  .skills-section {
+    padding: 0 28px;
+    animation: fadeUp 0.8s 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .skill-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--surface2);
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .skill-tag:hover {
+    color: var(--text);
+    border-color: rgba(123,97,255,0.4);
+    background: rgba(123,97,255,0.08);
+  }
+
+  .skill-tag.hot {
+    color: var(--accent);
+    border-color: rgba(0,255,163,0.2);
+    background: rgba(0,255,163,0.05);
+  }
+
+  /* === PROJECTS === */
+  .projects-section {
+    padding: 0 28px;
+    animation: fadeUp 0.8s 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .project-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    transition: all 0.2s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2));
+    border-radius: 0 2px 2px 0;
+  }
+
+  .project-card:hover {
+    border-color: rgba(0,255,163,0.2);
+    transform: translateX(4px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .project-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+
+  .project-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .project-type {
+    font-size: 9px;
+    font-family: 'Space Mono', monospace;
+    color: var(--accent2);
+    border: 1px solid rgba(123,97,255,0.3);
+    background: rgba(123,97,255,0.08);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  .project-desc {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    line-height: 1.5;
+    margin-bottom: 8px;
+  }
+
+  .project-tech {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  .tech-dot {
+    font-size: 10px;
+    font-family: 'Space Mono', monospace;
+    color: var(--accent3);
+    background: rgba(255,77,109,0.07);
+    border: 1px solid rgba(255,77,109,0.15);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  /* === SOCIAL LINKS === */
+  .social-section {
+    padding: 0 28px;
+    animation: fadeUp 0.8s 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .social-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .social-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 14px;
+    text-decoration: none;
+    color: var(--muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .social-btn:hover {
+    color: var(--text);
+    transform: translateY(-2px);
+  }
+
+  .social-btn.fb:hover  { border-color: #1877f2; box-shadow: 0 4px 16px rgba(24,119,242,0.2); }
+  .social-btn.zl:hover  { border-color: #0068ff; box-shadow: 0 4px 16px rgba(0,104,255,0.2); }
+  .social-btn.tg:hover  { border-color: #2aabee; box-shadow: 0 4px 16px rgba(42,171,238,0.2); }
+  .social-btn.web:hover { border-color: var(--accent); box-shadow: 0 4px 16px rgba(0,255,163,0.15); }
+
+  .social-icon {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .social-icon.fb  { background: rgba(24,119,242,0.15); }
+  .social-icon.zl  { background: rgba(0,104,255,0.15); }
+  .social-icon.tg  { background: rgba(42,171,238,0.15); }
+  .social-icon.web { background: rgba(0,255,163,0.1); font-size: 13px; }
+
+  .social-name { font-weight: 500; }
+  .social-sub  { font-size: 9px; color: var(--muted2); display: block; margin-top: 1px; font-family: 'DM Mono', monospace; }
+
+  /* Website highlight */
+  .social-btn.web .social-name { color: var(--accent); }
+
+  /* === FOOTER === */
+  .card-footer {
+    padding: 16px 28px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    animation: fadeUp 0.8s 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .footer-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .footer-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--muted2);
+    letter-spacing: 0.5px;
+  }
+
+  .footer-tag span { color: var(--accent2); }
+
+  /* === TOAST === */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: var(--surface2);
+    border: 1px solid rgba(0,255,163,0.3);
+    color: var(--accent);
+    font-family: 'Space Mono', monospace;
+    font-size: 12px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    z-index: 100;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    pointer-events: none;
+    box-shadow: 0 4px 24px rgba(0,255,163,0.15);
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* Spacing helper */
+  .gap { height: 14px; }
+</style>
+</head>
+<body>
+
+<div class="glow-orb g1"></div>
+<div class="glow-orb g2"></div>
+<div class="glow-orb g3"></div>
+
+<div class="card">
+  <div class="card-frame">
+
+    <!-- HEADER -->
+    <div class="card-header">
+      <div class="header-top">
+        <div class="avatar-wrap">
+          <div class="avatar-ring">
+            <div class="avatar-inner">DB</div>
+          </div>
+          <div class="online-badge"></div>
+        </div>
+
+        <div class="header-info">
+          <div class="name"><span>Doki</span> Byste</div>
+          <div class="handle">@<span>DokiByste_Noob</span></div>
+          <div class="location-row">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Tp. Hưng Yên, Vietnam
+          </div>
+        </div>
+
+        <div class="follower-chip">678K+ followers</div>
+      </div>
+
+      <!-- Role badges -->
+      <div style="margin-bottom: 4px;">
+        <span class="role-badge green">⚡ Full Stack</span>
+        <span class="role-badge purple">✦ UI/UX</span>
+        <span class="role-badge red">🚀 CEO &amp; Founder</span>
+      </div>
+    </div>
+
+    <!-- DIVIDER -->
+    <div style="padding: 0 28px;"><div class="divider"></div></div>
+
+    <!-- BIO -->
+    <div class="bio-section">
+      <div class="bio-code">
+        <span class="kw">Hello</span>, <span class="fn">I'm</span> <span class="str">Print(f"Doki")</span>
+        <br>
+        <span class="cmt">// Single · Always building something cool</span>
+      </div>
+      <div class="bio-title">CEO &amp; Founder @ <span style="color:var(--accent);">lol.dev</span></div>
+    </div>
+
+    <div class="gap"></div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-box">
+        <div class="stat-val">678<span>K+</span></div>
+        <div class="stat-label">FOLLOWERS</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" style="color:var(--accent2);">2<span style="color:var(--accent2);font-size:13px;">+</span></div>
+        <div class="stat-label">PROJECTS</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-val" style="color:var(--accent3);">∞</div>
+        <div class="stat-label">PASSION</div>
+      </div>
+    </div>
+
+    <div class="gap"></div>
+
+    <!-- PAYMENT -->
+    <div class="pay-section">
+      <div class="section-label">donate / support</div>
+      <div class="pay-cards">
+        <div class="pay-card" onclick="copyText('6099883404', this)">
+          <div class="pay-bank">MBBANK</div>
+          <div class="pay-number">6099 8834 04</div>
+          <div class="copy-hint">click to copy</div>
+        </div>
+        <div class="pay-card" onclick="copyText('0346091524', this)">
+          <div class="pay-bank">MBBANK</div>
+          <div class="pay-number">0346 0915 24</div>
+          <div class="copy-hint">click to copy</div>
+        </div>
+        <a class="donate-btn" href="#" onclick="return false;">
+          <div class="donate-icon">💚</div>
+          <div class="donate-label">Donate</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="gap"></div>
+
+    <!-- SKILLS -->
+    <div class="skills-section">
+      <div class="section-label">tech stack</div>
+      <div class="skill-tags">
+        <span class="skill-tag hot">PHP</span>
+        <span class="skill-tag hot">HTML</span>
+        <span class="skill-tag hot">CSS</span>
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">AJAX</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">UI/UX</span>
+        <span class="skill-tag">Figma</span>
+      </div>
+    </div>
+
+    <div class="gap"></div>
+
+    <!-- PROJECT -->
+    <div class="projects-section">
+      <div class="section-label">pinned projects</div>
+
+      <div class="project-card" style="margin-bottom:8px;">
+        <div class="project-top">
+          <div class="project-name">
+            🔐 AuthCheck[X]
+          </div>
+          <span class="project-type">CROSS-PLATFORM</span>
+        </div>
+        <div class="project-desc">Cross-platform login verification bot — seamless auth across multiple services.</div>
+        <div class="project-tech">
+          <span class="tech-dot">PHP</span>
+          <span class="tech-dot">Bot</span>
+          <span class="tech-dot">Auth</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-top">
+          <div class="project-name">
+            🌐 lol.Dev
+          </div>
+          <span class="project-type">WEB APP</span>
+        </div>
+        <div class="project-desc">Full-featured web platform built with raw PHP, HTML, CSS &amp; MySQL.</div>
+        <div class="project-tech">
+          <span class="tech-dot">PHP</span>
+          <span class="tech-dot">MySQL</span>
+          <span class="tech-dot">CSS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="gap"></div>
+
+    <!-- SOCIAL -->
+    <div class="social-section">
+      <div class="section-label">connect with me</div>
+      <div class="social-grid">
+        <a class="social-btn fb" href="#">
+          <div class="social-icon fb">📘</div>
+          <div><span class="social-name">Facebook</span><span class="social-sub">DokiByste</span></div>
+        </a>
+        <a class="social-btn zl" href="#">
+          <div class="social-icon zl">💬</div>
+          <div><span class="social-name">Zalo</span><span class="social-sub">0346 091 524</span></div>
+        </a>
+        <a class="social-btn tg" href="#">
+          <div class="social-icon tg">✈️</div>
+          <div><span class="social-name">Telegram</span><span class="social-sub">@DokiByste</span></div>
+        </a>
+        <a class="social-btn web" href="#">
+          <div class="social-icon web">⚡</div>
+          <div><span class="social-name">lol.Dev</span><span class="social-sub">website</span></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="card-footer">
+      <div class="footer-status">
+        <div class="status-dot"></div>
+        Available for work
+      </div>
+      <div class="footer-tag">made with <span>❤</span> in Vietnam</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast">📋 Copied to clipboard!</div>
+
+<script>
+  function copyText(text, el) {
+    navigator.clipboard.writeText(text).catch(() => {});
+    const toast = document.getElementById('toast');
+    toast.textContent = `📋 Copied: ${text}`;
+    toast.classList.add('show');
+    el.style.borderColor = 'rgba(0,255,163,0.5)';
+    setTimeout(() => {
+      toast.classList.remove('show');
+      el.style.borderColor = '';
+    }, 2000);
+  }
+
+  // Hover shimmer on card
+  const card = document.querySelector('.card-frame');
+  card.addEventListener('mousemove', (e) => {
+    const rect = card.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    card.style.setProperty('--mx', `${x}%`);
+    card.style.setProperty('--my', `${y}%`);
+  });
+</script>
+</body>
+</html>
