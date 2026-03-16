@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
 
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -9,43 +9,81 @@
 
 <style>
 
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:"Segoe UI",Arial,sans-serif;
+}
+
 body{
-font-family: "Segoe UI", Arial, sans-serif;
-background: linear-gradient(135deg,#111,#333);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
 color:white;
-text-align:center;
-padding-top:100px;
 }
 
 .box{
-background:#222;
-padding:30px;
-width:300px;
-margin:auto;
-border-radius:10px;
-box-shadow:0 0 10px black;
+
+background:rgba(0,0,0,0.6);
+padding:35px;
+width:320px;
+border-radius:15px;
+text-align:center;
+
+box-shadow:
+0 0 20px rgba(0,0,0,0.7),
+0 0 40px rgba(0,0,0,0.3);
+
+backdrop-filter:blur(10px);
+
+}
+
+h2{
+margin-bottom:15px;
 }
 
 input{
-padding:10px;
-width:80%;
+
+width:90%;
+padding:12px;
 border:none;
-border-radius:5px;
-margin:10px;
+border-radius:8px;
+margin-top:10px;
+font-size:16px;
+
 }
 
 button{
-padding:10px 20px;
+
+margin-top:15px;
+padding:10px 25px;
+
 border:none;
+border-radius:8px;
+
 background:#00c3ff;
 color:white;
-border-radius:5px;
+
+font-size:16px;
 cursor:pointer;
+
+transition:0.2s;
+
+}
+
+button:hover{
+transform:scale(1.05);
+background:#00a2d6;
 }
 
 #ketqua{
-margin-top:20px;
+
+margin-top:18px;
 font-size:18px;
+
 }
 
 </style>
@@ -57,7 +95,11 @@ font-size:18px;
 
 <h2>Máy Tính Tuổi 🦋</h2>
 
-<input type="number" id="tuoi" placeholder="Nhập tuổi của bạn">
+<input
+type="number"
+id="tuoi"
+placeholder="Nhập tuổi của bạn"
+>
 
 <br>
 
@@ -71,16 +113,38 @@ font-size:18px;
 
 function tinhTuoi(){
 
-let tuoi = document.getElementById("tuoi").value
-let kq = document.getElementById("ketqua")
+let tuoi =
+document.getElementById("tuoi").value
+
+let kq =
+document.getElementById("ketqua")
 
 if(tuoi === ""){
-kq.innerHTML = "địt mẹ không nhập tuổi tính kiểu lồn gì ☝️"
+
+kq.innerHTML =
+"Bạn không nhập tuổi tính kiểu gì ☝️"
+
 kq.style.color = "red"
-}else{
-kq.innerHTML = tuoi + " là tuổi của bạn 🦋🦜☝️"
-kq.style.color = "lightgreen"
+
+return
+
 }
+
+if(tuoi < 0 || tuoi > 120){
+
+kq.innerHTML =
+"địt mẹ đéo nhập tuổi thì tính kiểu lồn gì 🤬"
+
+kq.style.color = "orange"
+
+return
+
+}
+
+kq.innerHTML =
+tuoi + " là tuổi của bạn 🦋🦜☝️"
+
+kq.style.color = "lightgreen"
 
 }
 
