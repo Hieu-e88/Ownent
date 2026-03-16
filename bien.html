@@ -1,63 +1,70 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Máy Tính Tuổi</title>
 
 <style>
+
 body{
-    font-family: Arial;
-    background: linear-gradient(135deg,#111,#333);
-    color:white;
-    text-align:center;
-    padding-top:100px;
+font-family: "Segoe UI", Arial, sans-serif;
+background: linear-gradient(135deg,#111,#333);
+color:white;
+text-align:center;
+padding-top:100px;
 }
 
 .box{
-    background:#222;
-    padding:30px;
-    width:300px;
-    margin:auto;
-    border-radius:10px;
-    box-shadow:0 0 10px black;
+background:#222;
+padding:30px;
+width:300px;
+margin:auto;
+border-radius:10px;
+box-shadow:0 0 10px black;
 }
 
 input{
-    padding:10px;
-    width:80%;
-    border:none;
-    border-radius:5px;
-    margin:10px;
+padding:10px;
+width:80%;
+border:none;
+border-radius:5px;
+margin:10px;
 }
 
 button{
-    padding:10px 20px;
-    border:none;
-    background:#00c3ff;
-    color:white;
-    border-radius:5px;
-    cursor:pointer;
+padding:10px 20px;
+border:none;
+background:#00c3ff;
+color:white;
+border-radius:5px;
+cursor:pointer;
 }
 
 #ketqua{
-    margin-top:20px;
-    font-size:18px;
+margin-top:20px;
+font-size:18px;
 }
+
 </style>
 </head>
 
 <body>
 
 <div class="box">
+
 <h2>Máy Tính Tuổi 🦋</h2>
 
 <input type="number" id="tuoi" placeholder="Nhập tuổi của bạn">
 
 <br>
 
-<button onclick="tinhTuoi()">Xem tuổi </button>
+<button onclick="tinhTuoi()">Xem tuổi 🦜</button>
 
 <p id="ketqua"></p>
+
 </div>
 
 <script>
@@ -68,10 +75,9 @@ let tuoi = document.getElementById("tuoi").value
 let kq = document.getElementById("ketqua")
 
 if(tuoi === ""){
-kq.innerHTML = "địt mẹ  không nhập tuổi tính kiểu lồn gì gì ☝️"
+kq.innerHTML = "địt mẹ không nhập tuổi tính kiểu lồn gì ☝️"
 kq.style.color = "red"
-}
-else{
+}else{
 kq.innerHTML = tuoi + " là tuổi của bạn 🦋🦜☝️"
 kq.style.color = "lightgreen"
 }
